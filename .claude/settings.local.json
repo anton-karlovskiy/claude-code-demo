@@ -25,7 +25,8 @@
       "Bash(bun run:*)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(awk '{print $NF}')"
+      "Bash(awk '{print $NF}')",
+      "WebFetch(domain:better-auth.com)"
     ]
   },
   "sandbox": {
