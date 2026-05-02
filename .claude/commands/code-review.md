@@ -1,7 +1,5 @@
 ---
-name: code-review
-description: Review code for bugs, security or performance issues. Use this skill when asked to perform code reviews or after finishing major tasks or after refactoring code.
-allowed-tools: Read
+allowed-tools: Read(*)
 description: Perform a code-review
 ---
 
