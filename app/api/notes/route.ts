@@ -3,9 +3,11 @@ import { z } from "zod";
 import { getSession } from "@/lib/auth";
 import { createNote } from "@/lib/notes";
 
+const isValidJson = (s: string) => { try { JSON.parse(s); return true; } catch { return false; } };
+
 const CreateNoteSchema = z.object({
   title: z.string().min(1),
-  contentJson: z.string().min(1),
+  contentJson: z.string().min(1).refine(isValidJson, "contentJson must be valid JSON"),
 });
 
 export async function POST(request: Request) {

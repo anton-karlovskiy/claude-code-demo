@@ -6,6 +6,10 @@ import StarterKit from "@tiptap/starter-kit";
 import type { Note } from "@/lib/notes";
 import EditorToolbar from "./EditorToolbar";
 
+function parseContent(json: string) {
+  try { return JSON.parse(json); } catch { return undefined; }
+}
+
 const inputClass =
   "rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:border-neutral-700 dark:focus-visible:ring-white";
 
@@ -17,7 +21,7 @@ export default function NoteEditor({ note }: { note: Note }) {
 
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
-    content: JSON.parse(note.contentJson),
+    content: parseContent(note.contentJson),
     immediatelyRender: false,
   });
 

@@ -16,9 +16,11 @@ export async function GET(_req: Request, { params }: RouteContext) {
   return NextResponse.json(note);
 }
 
+const isValidJson = (s: string) => { try { JSON.parse(s); return true; } catch { return false; } };
+
 const UpdateNoteSchema = z.object({
   title: z.string().min(1).optional(),
-  contentJson: z.string().min(1).optional(),
+  contentJson: z.string().min(1).refine(isValidJson, "contentJson must be valid JSON").optional(),
 });
 
 export async function PUT(req: Request, { params }: RouteContext) {

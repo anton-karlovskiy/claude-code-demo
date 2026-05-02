@@ -7,6 +7,7 @@ mkdirSync(dirname(dbPath), { recursive: true });
 
 export const db = new Database(dbPath, { create: true });
 db.run("PRAGMA journal_mode = WAL;");
+db.run("PRAGMA foreign_keys = ON;");
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS user (
