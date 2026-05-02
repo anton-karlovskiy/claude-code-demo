@@ -26,7 +26,9 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(awk '{print $NF}')",
-      "WebFetch(domain:better-auth.com)"
+      "WebFetch(domain:better-auth.com)",
+      "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\\\\app\" -Recurse -Filter \"*auth*\")",
+      "Bash(Select-Object FullName)"
     ]
   },
   "sandbox": {
