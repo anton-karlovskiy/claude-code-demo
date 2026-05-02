@@ -41,7 +41,7 @@ export default function NewNoteForm() {
     }
 
     const note = await res.json();
-    router.push(`/notes/${note.id}`);
+    router.push(`/notes/${note.id}/edit`);
   }
 
   return (

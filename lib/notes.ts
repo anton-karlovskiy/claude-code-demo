@@ -1,4 +1,4 @@
-import { get, run } from "./db";
+import { get, query, run } from "./db";
 
 export type Note = {
   id: string;
@@ -58,6 +58,14 @@ export function getNoteById(userId: string, noteId: string): Note | null {
     [noteId, userId]
   );
   return row ? rowToNote(row) : null;
+}
+
+export function getNotesByUser(userId: string): Note[] {
+  const rows = query<RawNote>(
+    "SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC",
+    [userId]
+  );
+  return rows.map(rowToNote);
 }
 
 export function updateNote(
