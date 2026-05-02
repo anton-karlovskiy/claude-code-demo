@@ -42,7 +42,15 @@
       "Bash(findstr /E \"\\\\.\\(ts|tsx\\)$\")",
       "Bash(findstr /V \"node_modules\")",
       "mcp__plugin_playwright_playwright__browser_evaluate",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(Get-ChildItem -Recurse -Force)",
+      "WebFetch(domain:vitest.dev)",
+      "WebFetch(domain:www.shsxnk.com)",
+      "WebFetch(domain:blog.arcjet.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(Select-String \"vitest|vite|testing|jsdom\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('version:', d.get\\('version'\\)\\); print\\('peerDeps:', list\\(d.get\\('peerDependencies',{}\\).keys\\(\\)\\)\\)\")",
+      "Bash(node *)"
     ]
   },
   "sandbox": {

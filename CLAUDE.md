@@ -16,9 +16,9 @@ bun run dev       # start dev server (localhost:3000)
 bun run build     # production build
 bun run start     # start production server
 bun run lint      # run ESLint
+bun run test      # run unit tests (Vitest)
+bun run test:watch  # run Vitest in watch mode
 ```
-
-No test runner is configured yet.
 
 ## Architecture
 
