@@ -1,6 +1,6 @@
-import { betterAuth } from "better-auth";
-import { nextCookies } from "better-auth/next-js";
-import { db } from "./db";
+import { betterAuth } from 'better-auth';
+import { nextCookies } from 'better-auth/next-js';
+import { db } from './db';
 
 export const auth = betterAuth({
   database: db,
@@ -12,6 +12,6 @@ export const auth = betterAuth({
 export type Session = typeof auth.$Infer.Session;
 
 export async function getSession() {
-  const { headers } = await import("next/headers");
+  const { headers } = await import('next/headers');
   return auth.api.getSession({ headers: await headers() });
 }

@@ -1,50 +1,57 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { getSession } from "@/lib/auth";
-import { deleteNote, getNoteById, updateNote } from "@/lib/notes";
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { getSession } from '@/lib/auth';
+import { deleteNote, getNoteById, updateNote } from '@/lib/notes';
 
 type RouteContext = { params: Promise<{ id: string }> };
 
 export async function GET(_req: Request, { params }: RouteContext) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
   const note = getNoteById(session.user.id, id);
-  if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!note) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   return NextResponse.json(note);
 }
 
-const isValidJson = (s: string) => { try { JSON.parse(s); return true; } catch { return false; } };
+const isValidJson = (s: string) => {
+  try {
+    JSON.parse(s);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 const UpdateNoteSchema = z.object({
   title: z.string().min(1).optional(),
-  contentJson: z.string().min(1).refine(isValidJson, "contentJson must be valid JSON").optional(),
+  contentJson: z.string().min(1).refine(isValidJson, 'contentJson must be valid JSON').optional(),
 });
 
 export async function DELETE(_req: Request, { params }: RouteContext) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
   const deleted = deleteNote(session.user.id, id);
-  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!deleted) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   return new NextResponse(null, { status: 204 });
 }
 
 export async function PUT(req: Request, { params }: RouteContext) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
   const body = await req.json();
   const parsed = UpdateNoteSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+  if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const note = updateNote(session.user.id, id, parsed.data);
-  if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!note) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   return NextResponse.json(note);
 }
