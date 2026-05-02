@@ -23,7 +23,7 @@ export default function DeleteNoteButton({ noteId }: { noteId: string }) {
       </button>
       <dialog
         ref={dialogRef}
-        className="rounded-xl border border-neutral-200 bg-white p-6 shadow-lg backdrop:bg-black/40 dark:border-neutral-700 dark:bg-neutral-900"
+        className="m-auto rounded-xl border border-neutral-200 bg-white p-6 shadow-lg backdrop:bg-black/40 dark:border-neutral-700 dark:bg-neutral-900"
       >
         <h2 className="mb-2 text-lg font-semibold text-foreground">Delete note?</h2>
         <p className="mb-6 text-sm text-neutral-500 dark:text-neutral-400">
