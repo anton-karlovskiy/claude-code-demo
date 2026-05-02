@@ -36,7 +36,11 @@
       "Bash(git commit *)",
       "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" -Recurse -Directory)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(Sort-Object)"
+      "Bash(Sort-Object)",
+      "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" -Recurse -File)",
+      "Bash(dir \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" /s /b)",
+      "Bash(findstr /E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(findstr /V \"node_modules\")"
     ]
   },
   "sandbox": {

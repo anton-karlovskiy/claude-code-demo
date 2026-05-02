@@ -68,6 +68,13 @@ export function getNotesByUser(userId: string): Note[] {
   return rows.map(rowToNote);
 }
 
+export function deleteNote(userId: string, noteId: string): boolean {
+  const note = getNoteById(userId, noteId);
+  if (!note) return false;
+  run("DELETE FROM notes WHERE id = ? AND user_id = ?", [noteId, userId]);
+  return true;
+}
+
 export function updateNote(
   userId: string,
   noteId: string,

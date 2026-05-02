@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getSession } from "@/lib/auth";
-import { getNoteById, updateNote } from "@/lib/notes";
+import { deleteNote, getNoteById, updateNote } from "@/lib/notes";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -22,6 +22,17 @@ const UpdateNoteSchema = z.object({
   title: z.string().min(1).optional(),
   contentJson: z.string().min(1).refine(isValidJson, "contentJson must be valid JSON").optional(),
 });
+
+export async function DELETE(_req: Request, { params }: RouteContext) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { id } = await params;
+  const deleted = deleteNote(session.user.id, id);
+  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  return new NextResponse(null, { status: 204 });
+}
 
 export async function PUT(req: Request, { params }: RouteContext) {
   const session = await getSession();

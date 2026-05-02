@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { getNoteById } from "@/lib/notes";
 import NoteRenderer from "@/components/NoteRenderer";
+import DeleteNoteButton from "@/components/DeleteNoteButton";
 
 export default async function NoteViewPage({
   params,
@@ -22,12 +23,15 @@ export default async function NoteViewPage({
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
           {note.title}
         </h1>
-        <Link
-          href={`/notes/${id}/edit`}
-          className="shrink-0 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
-        >
-          Edit
-        </Link>
+        <div className="flex shrink-0 gap-2">
+          <Link
+            href={`/notes/${id}/edit`}
+            className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
+          >
+            Edit
+          </Link>
+          <DeleteNoteButton noteId={id} />
+        </div>
       </div>
       <NoteRenderer contentJson={note.contentJson} />
     </main>
