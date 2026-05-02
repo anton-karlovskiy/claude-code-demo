@@ -40,7 +40,9 @@
       "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" -Recurse -File)",
       "Bash(dir \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" /s /b)",
       "Bash(findstr /E \"\\\\.\\(ts|tsx\\)$\")",
-      "Bash(findstr /V \"node_modules\")"
+      "Bash(findstr /V \"node_modules\")",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "Bash(git push *)"
     ]
   },
   "sandbox": {
