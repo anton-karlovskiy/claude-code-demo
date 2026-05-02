@@ -67,6 +67,27 @@ export function deleteNote(userId: string, noteId: string): boolean {
   return true;
 }
 
+export function setNotePublic(userId: string, noteId: string, isPublic: boolean): Note | null {
+  const note = getNoteById(userId, noteId);
+  if (!note) return null;
+
+  const slug =
+    isPublic && !note.publicSlug ? crypto.randomUUID().replace(/-/g, '') : note.publicSlug;
+
+  run('UPDATE notes SET is_public = ?, public_slug = ? WHERE id = ? AND user_id = ?', [
+    isPublic ? 1 : 0,
+    slug,
+    noteId,
+    userId,
+  ]);
+  return getNoteById(userId, noteId);
+}
+
+export function getNoteByPublicSlug(slug: string): Note | null {
+  const row = get<RawNote>('SELECT * FROM notes WHERE public_slug = ? AND is_public = 1', [slug]);
+  return row ? rowToNote(row) : null;
+}
+
 export function updateNote(
   userId: string,
   noteId: string,
