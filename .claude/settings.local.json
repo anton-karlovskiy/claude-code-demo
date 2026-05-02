@@ -31,7 +31,9 @@
       "Bash(Select-Object FullName)",
       "Bash(findstr middleware *)",
       "Bash(Select-String middleware *)",
-      "Bash(xargs head *)"
+      "Bash(xargs head *)",
+      "Bash(git rm *)",
+      "Bash(git commit *)"
     ]
   },
   "sandbox": {
