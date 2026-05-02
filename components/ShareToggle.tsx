@@ -32,29 +32,28 @@ export default function ShareToggle({ note }: { note: Note }) {
   }
 
   return (
-    <div className='flex flex-col gap-2'>
+    <>
       <button
         type='button'
         onClick={handleToggle}
         disabled={isPending}
-        className='rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:hover:bg-neutral-800'
+        className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+          isPublic
+            ? 'border-green-600 bg-green-600/10 text-green-700 hover:bg-green-600/20 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-600/20'
+            : 'border-neutral-300 text-foreground hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800'
+        }`}
       >
-        {isPending ? '…' : isPublic ? 'Sharing on' : 'Share publicly'}
+        {isPending ? '…' : isPublic ? 'Public' : 'Share'}
       </button>
       {isPublic && slug && (
-        <div className='flex items-center gap-2'>
-          <span className='truncate rounded border border-neutral-200 bg-neutral-50 px-2 py-1 font-mono text-xs text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400'>
-            {typeof window !== 'undefined' ? `${window.location.origin}/p/${slug}` : `/p/${slug}`}
-          </span>
-          <button
-            type='button'
-            onClick={handleCopy}
-            className='shrink-0 rounded border border-neutral-300 px-2 py-1 text-xs font-medium text-foreground transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800'
-          >
-            {copied ? 'Copied!' : 'Copy'}
-          </button>
-        </div>
+        <button
+          type='button'
+          onClick={handleCopy}
+          className='rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800'
+        >
+          {copied ? 'Copied!' : 'Copy link'}
+        </button>
       )}
-    </div>
+    </>
   );
 }
