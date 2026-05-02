@@ -30,7 +30,8 @@
       "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\\\\app\" -Recurse -Filter \"*auth*\")",
       "Bash(Select-Object FullName)",
       "Bash(findstr middleware *)",
-      "Bash(Select-String middleware *)"
+      "Bash(Select-String middleware *)",
+      "Bash(xargs head *)"
     ]
   },
   "sandbox": {
