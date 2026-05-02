@@ -1,51 +1,48 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import type { Note } from "@/lib/notes";
 import EditorToolbar from "./EditorToolbar";
 
 const inputClass =
   "rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:border-neutral-700 dark:focus-visible:ring-white";
 
-export default function NewNoteForm() {
-  const router = useRouter();
-  const [title, setTitle] = useState("");
+export default function NoteEditor({ note }: { note: Note }) {
+  const [title, setTitle] = useState(note.title);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
+    content: JSON.parse(note.contentJson),
     immediatelyRender: false,
   });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSave() {
     if (!editor) return;
-
     setIsPending(true);
     setError(null);
+    setSaved(false);
 
-    const contentJson = JSON.stringify(editor.getJSON());
-    const res = await fetch("/api/notes", {
-      method: "POST",
+    const res = await fetch(`/api/notes/${note.id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, contentJson }),
+      body: JSON.stringify({ title, contentJson: JSON.stringify(editor.getJSON()) }),
     });
 
+    setIsPending(false);
     if (!res.ok) {
-      setError("Failed to create note. Please try again.");
-      setIsPending(false);
-      return;
+      setError("Failed to save note. Please try again.");
+    } else {
+      setSaved(true);
     }
-
-    const note = await res.json();
-    router.push(`/notes/${note.id}`);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
         <label htmlFor="title" className="text-sm font-medium text-foreground">
           Title
@@ -53,7 +50,6 @@ export default function NewNoteForm() {
         <input
           id="title"
           type="text"
-          required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Note title"
@@ -81,14 +77,20 @@ export default function NewNoteForm() {
           {error}
         </p>
       )}
+      {saved && (
+        <p role="status" className="text-sm text-green-600 dark:text-green-400">
+          Saved.
+        </p>
+      )}
 
       <button
-        type="submit"
+        type="button"
+        onClick={handleSave}
         disabled={isPending || !editor}
         className="rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 dark:focus-visible:ring-white"
       >
-        {isPending ? "Creating…" : "Create note"}
+        {isPending ? "Saving…" : "Save"}
       </button>
-    </form>
+    </div>
   );
 }

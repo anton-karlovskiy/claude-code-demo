@@ -51,3 +51,39 @@ export function createNote(
   if (!row) throw new Error("Failed to create note");
   return rowToNote(row);
 }
+
+export function getNoteById(userId: string, noteId: string): Note | null {
+  const row = get<RawNote>(
+    "SELECT * FROM notes WHERE id = ? AND user_id = ?",
+    [noteId, userId]
+  );
+  return row ? rowToNote(row) : null;
+}
+
+export function updateNote(
+  userId: string,
+  noteId: string,
+  data: Partial<{ title: string; contentJson: string }>
+): Note | null {
+  const fields: string[] = [];
+  const values: unknown[] = [];
+
+  if (data.title !== undefined) {
+    fields.push("title = ?");
+    values.push(data.title);
+  }
+  if (data.contentJson !== undefined) {
+    fields.push("content_json = ?");
+    values.push(data.contentJson);
+  }
+  if (fields.length === 0) return getNoteById(userId, noteId);
+
+  fields.push("updated_at = datetime('now')");
+  values.push(noteId, userId);
+
+  run(
+    `UPDATE notes SET ${fields.join(", ")} WHERE id = ? AND user_id = ?`,
+    values as string[]
+  );
+  return getNoteById(userId, noteId);
+}
