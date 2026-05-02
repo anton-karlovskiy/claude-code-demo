@@ -33,7 +33,10 @@
       "Bash(Select-String middleware *)",
       "Bash(xargs head *)",
       "Bash(git rm *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(Get-ChildItem -Path \"G:\\\\anton\\\\02_projects\\\\maxschwarzmueller-udemy\\\\claude-code-demo\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)"
     ]
   },
   "sandbox": {
