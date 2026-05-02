@@ -11,6 +11,7 @@ export default function LogoutButton() {
       fetchOptions: {
         onSuccess: () => {
           router.push('/authenticate');
+          router.refresh();
         },
       },
     });
