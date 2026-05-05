@@ -2,10 +2,33 @@ import { Database } from 'bun:sqlite';
 import { mkdirSync } from 'fs';
 import { dirname } from 'path';
 
+function isVercelRuntime() {
+  // Vercel sets multiple env vars depending on environment/runtime.
+  // We treat any of these as "running on Vercel" to avoid writing to the read-only FS.
+  return Boolean(
+    process.env.VERCEL ||
+      process.env.VERCEL_ENV ||
+      process.env.VERCEL_REGION ||
+      process.env.NOW_REGION
+  );
+}
+
 // On Vercel, the filesystem is read-only except for `/tmp`.
-const defaultDbPath = process.env.VERCEL ? '/tmp/app.db' : 'data/app.db';
+const defaultDbPath = isVercelRuntime() ? '/tmp/app.db' : 'data/app.db';
 const dbPath = process.env.DB_PATH ?? defaultDbPath;
-mkdirSync(dirname(dbPath), { recursive: true });
+
+const dbDir = dirname(dbPath);
+if (isVercelRuntime()) {
+  if (!dbPath.startsWith('/tmp/')) {
+    throw new Error(
+      `Invalid DB_PATH on Vercel: "${dbPath}". Vercel functions can only write to "/tmp". ` +
+        `Set DB_PATH to a "/tmp/..." path (ephemeral) or use an external DB for persistence.`
+    );
+  }
+  mkdirSync(dbDir, { recursive: true });
+} else {
+  mkdirSync(dbDir, { recursive: true });
+}
 
 export const db = new Database(dbPath, { create: true });
 db.run('PRAGMA journal_mode = WAL;');
