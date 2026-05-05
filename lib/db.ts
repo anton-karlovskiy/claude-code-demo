@@ -2,7 +2,9 @@ import { Database } from 'bun:sqlite';
 import { mkdirSync } from 'fs';
 import { dirname } from 'path';
 
-const dbPath = process.env.DB_PATH ?? 'data/app.db';
+// On Vercel, the filesystem is read-only except for `/tmp`.
+const defaultDbPath = process.env.VERCEL ? '/tmp/app.db' : 'data/app.db';
+const dbPath = process.env.DB_PATH ?? defaultDbPath;
 mkdirSync(dirname(dbPath), { recursive: true });
 
 export const db = new Database(dbPath, { create: true });
