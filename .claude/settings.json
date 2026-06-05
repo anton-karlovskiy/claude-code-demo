@@ -16,6 +16,7 @@
         "hooks": [
           {
             "type": "prompt",
+            "model": "claude-haiku-4-5-20251001",
             "prompt": "Review the conversation and identify any tasks the user explicitly requested. Are there any that have not been completed? If yes, respond with {\"ok\": false, \"reason\": \"<what remains>\"}. If all requested tasks are done, respond with {\"ok\": true}."
           }
         ]
