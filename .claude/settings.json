@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Check if all tasks are complete. If not, respond with {\"ok\": false, \"reason\": \"what remains to be done\"}."
+            "prompt": "Review the conversation and identify any tasks the user explicitly requested. Are there any that have not been completed? If yes, respond with {\"ok\": false, \"reason\": \"<what remains>\"}. If all requested tasks are done, respond with {\"ok\": true}."
           }
         ]
       }
